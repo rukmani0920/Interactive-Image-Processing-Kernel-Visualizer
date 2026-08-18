@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Interactive Image Kernel Visualizer</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="header">
+
+    <div class="header-icon">🖼️</div>
+
+    <h1>Interactive Image Kernel Visualizer</h1>
+
+    <p>
+        Spatial Domain Methods & Gradient Operators
+    </p>
+
+    <span class="header-badge">
+        Learn • Visualize • Calculate
+    </span>
+
+</header>
+
+
+<main class="container">
+
+
+    <!-- ================= UPLOAD + OPERATION ================= -->
+
+    <section class="top-grid">
+
+        <div class="card upload-card">
+
+            <div class="section-title">
+                <span>📤</span>
+                <div>
+                    <h2>Upload Image</h2>
+                    <small>Choose an image for processing</small>
+                </div>
+            </div>
+
+            <label class="upload-box">
+
+                <span class="upload-icon">📁</span>
+
+                <strong>Choose Image</strong>
+
+                <input
+                    type="file"
+                    id="imageInput"
+                    accept="image/*"
+                >
+
+                <small id="fileName">
+                    No image selected
+                </small>
+
+            </label>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="section-title">
+
+                <span>⚙️</span>
+
+                <div>
+                    <h2>Select Operation</h2>
+                    <small>Choose a spatial domain method</small>
+                </div>
+
+            </div>
+
+
+            <select id="kernelSelect">
+
+                <optgroup label="Smoothing">
+                    <option value="blur">Blur / Mean Filter</option>
+                    <option value="gaussian">Gaussian Blur</option>
+                </optgroup>
+
+                <optgroup label="Sharpening">
+                    <option value="sharpen">Sharpen</option>
+                    <option value="laplacian">Laplacian</option>
+                    <option value="emboss">Emboss</option>
+                    <option value="edgeEnhance">Edge Enhance</option>
+                </optgroup>
+
+                <optgroup label="Gradient Operators">
+                    <option value="sobelX">Sobel X</option>
+                    <option value="sobelY">Sobel Y</option>
+                    <option value="prewittX">Prewitt X</option>
+                    <option value="prewittY">Prewitt Y</option>
+                </optgroup>
+
+            </select>
+
+
+            <div id="operationDescription" class="operation-description">
+                Select an operation to see its description.
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= IMAGE AREA ================= -->
+
+    <section class="image-grid">
+
+
+        <!-- ORIGINAL -->
+
+        <div class="card image-card">
+
+            <div class="image-heading">
+
+                <div>
+
+                    <span class="label original-label">
+                        ORIGINAL
+                    </span>
+
+                    <h2>🖼️ Original Image</h2>
+
+                </div>
+
+                <strong id="imageSize">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div class="canvas-wrapper" id="originalWrapper">
+
+                <canvas id="originalCanvas"></canvas>
+
+                <div id="selectionGrid"></div>
+
+            </div>
+
+
+            <div class="zoom-controls">
+
+                <button id="zoomOut">−</button>
+
+                <span id="zoomValue">100%</span>
+
+                <button id="zoomIn">+</button>
+
+                <button id="zoomReset">
+                    Reset
+                </button>
+
+            </div>
+
+
+            <p class="instruction">
+                💡 Click on the image to select a 3×3 pixel region
+            </p>
+
+        </div>
+
+
+
+        <!-- OUTPUT -->
+
+        <div class="card image-card">
+
+            <div class="image-heading">
+
+                <div>
+
+                    <span class="label output-label">
+                        OUTPUT
+                    </span>
+
+                    <h2>✨ Output Image</h2>
+
+                </div>
+
+                <strong id="outputSize">
+                    —
+                </strong>
+
+            </div>
+
+
+            <div class="output-wrapper">
+
+                <canvas id="outputCanvas"></canvas>
+
+            </div>
+
+
+            <div id="outputInfo" class="output-info">
+
+                Select an operation after uploading an image.
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= IMAGE INFORMATION ================= -->
+
+    <section class="card">
+
+        <div class="section-title">
+
+            <span>📊</span>
+
+            <div>
+                <h2>Image Information</h2>
+                <small>Details about the uploaded image</small>
+            </div>
+
+        </div>
+
+
+        <div class="stats-grid">
+
+            <div class="stat-box">
+                <span>Width</span>
+                <strong id="statWidth">—</strong>
+                <small>pixels</small>
+            </div>
+
+            <div class="stat-box">
+                <span>Height</span>
+                <strong id="statHeight">—</strong>
+                <small>pixels</small>
+            </div>
+
+            <div class="stat-box">
+                <span>Total Pixels</span>
+                <strong id="statPixels">—</strong>
+                <small>pixels</small>
+            </div>
+
+            <div class="stat-box">
+                <span>Selected Pixel</span>
+                <strong id="statSelected">—</strong>
+                <small>x, y</small>
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= KERNEL + INSPECTOR ================= -->
+
+    <section class="two-column">
+
+
+        <!-- KERNEL -->
+
+        <div class="card">
+
+            <div class="section-title">
+
+                <span>🧮</span>
+
+                <div>
+                    <h2>Selected Kernel</h2>
+                    <small>Kernel used for convolution</small>
+                </div>
+
+            </div>
+
+
+            <div id="kernelDisplay"></div>
+
+
+            <div id="kernelExplanation" class="kernel-explanation">
+                Select an operation to view its kernel.
+            </div>
+
+        </div>
+
+
+
+        <!-- PIXEL INSPECTOR -->
+
+        <div class="card">
+
+            <div class="section-title">
+
+                <span>🔍</span>
+
+                <div>
+                    <h2>Pixel Inspector</h2>
+                    <small>RGB and grayscale information</small>
+                </div>
+
+            </div>
+
+
+            <div class="inspector-grid">
+
+                <div class="inspector-box">
+                    <span>📍 X Coordinate</span>
+                    <strong id="pixelX">—</strong>
+                </div>
+
+                <div class="inspector-box">
+                    <span>📍 Y Coordinate</span>
+                    <strong id="pixelY">—</strong>
+                </div>
+
+                <div class="inspector-box">
+                    <span>🔴 Red (R)</span>
+                    <strong id="pixelR">—</strong>
+                </div>
+
+                <div class="inspector-box">
+                    <span>🟢 Green (G)</span>
+                    <strong id="pixelG">—</strong>
+                </div>
+
+                <div class="inspector-box">
+                    <span>🔵 Blue (B)</span>
+                    <strong id="pixelB">—</strong>
+                </div>
+
+                <div class="inspector-box highlight">
+                    <span>⚫ Grayscale</span>
+                    <strong id="pixelGray">—</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= CALCULATION ================= -->
+
+    <section class="card calculation-card">
+
+        <div class="section-title">
+
+            <span>🧮</span>
+
+            <div>
+                <h2>Pixel Convolution Calculation</h2>
+                <small>
+                    Step-by-step multiplication of pixels and kernel values
+                </small>
+            </div>
+
+        </div>
+
+
+        <div id="selectedRegionTitle">
+            Select a pixel on the original image.
+        </div>
+
+
+        <div class="calculation-layout">
+
+
+            <!-- 3x3 PIXELS -->
+
+            <div>
+
+                <h3>Selected 3×3 Pixel Values</h3>
+
+                <div id="pixelRegion"></div>
+
+            </div>
+
+
+
+            <!-- CALCULATION -->
+
+            <div>
+
+                <h3>Calculation</h3>
+
+                <div id="calculation" class="calculation-box">
+
+                    Click on the original image to calculate.
+
+                </div>
+
+                <div id="result" class="result-box">
+                    🎯 Output Pixel = —
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= FULL PIXEL VALUES ================= -->
+
+    <section class="card">
+
+        <div class="section-title">
+
+            <span>🔢</span>
+
+            <div>
+                <h2>Full Image Pixel Values</h2>
+
+                <small>
+                    Grayscale pixel values of the uploaded image
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div id="fullPixelValues" class="full-pixels">
+
+            Upload an image to view pixel values.
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= THEORY ================= -->
+
+    <section class="theory-card">
+
+        <div class="theory-header">
+
+            <span>📚</span>
+
+            <div>
+
+                <h2 id="theoryTitle">
+                    About Spatial Domain Processing
+                </h2>
+
+                <small>
+                    Theory, formula and applications
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div id="theoryContent">
+
+            <div class="theory-intro">
+
+                <h3>💡 What is Spatial Domain Processing?</h3>
+
+                <p>
+                    Spatial domain image processing directly operates on
+                    the pixels of an image. A small matrix called a
+                    <strong>kernel</strong> or <strong>mask</strong>
+                    moves across the image and performs mathematical
+                    operations on neighboring pixels.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+
+<footer>
+
+    <p>
+        🖼️ Interactive Image Kernel Visualizer
+    </p>
+
+    <span>
+        Spatial Domain Methods • Gradient Operators • Image Processing
+    </span>
+
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
