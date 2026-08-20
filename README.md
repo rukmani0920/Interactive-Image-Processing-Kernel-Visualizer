@@ -5,6 +5,7 @@ An interactive web-based Image Processing Visualizer for understanding spatial-d
 **🌐Live Demo:** https://rukmani0920.github.io/Interactive-Image-Processing-Kernel-Visualizer/
 
 **Features**
+
 * Interactive image upload and visualization
 * Original image with adjustable viewing size
 * Real-time processed image output
@@ -23,6 +24,7 @@ An interactive web-based Image Processing Visualizer for understanding spatial-d
 * Original and processed image comparison
 
 **Concepts Demonstrated**
+
 * Spatial Domain Processing
 * Image Filtering
 * Image Kernels
@@ -36,6 +38,7 @@ An interactive web-based Image Processing Visualizer for understanding spatial-d
 * Laplacian Operator
 
 **Interactive Theory**
+
 For every selected operation, the application provides:
 * Definition
 * Working principle
@@ -46,6 +49,7 @@ For every selected operation, the application provides:
 This allows the project to function as both an **image-processing tool and an educational learning platform**.
 
 **Technologies Used**
+
 * HTML5
 * CSS3
 * JavaScript
