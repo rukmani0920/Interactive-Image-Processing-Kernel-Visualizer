@@ -51,9 +51,11 @@ This allows the project to function as both an **image-processing tool and an ed
 * HTML Canvas API
 
 **Purpose**
+
 This project is developed as an **Image and Video Analytics (IVA)** assignment to provide an interactive understanding of spatial-domain image processing and gradient operators.
 Instead of displaying only the final processed image, the application visually demonstrates **how individual pixel values and convolution kernels produce the final result**.
 
 **Project**
+
 Interactive Image Processing & Kernel Visualizer
 Developed as an educational web application for demonstrating **spatial-domain image processing, kernel-based filtering, gradient operators, and pixel-level convolution calculations**.
